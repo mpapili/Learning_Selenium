@@ -1,5 +1,6 @@
 part_hierarchy = [
-    {'CPU': 'Ryzen 9 3920x',
+    {'CPU': 'Ryzen 9 3950x',
+     'MOBO': 'X570',
      'GPU': [
          'GeForce RTX 2080 Ti',
          'GeForce RTX 2080 SUPER',
@@ -9,9 +10,13 @@ part_hierarchy = [
      'PSU_EFFs': [
          '80+ Gold',
          '80+ Platinum'
-     ]
+     ],
+     'PSU_WATT_MIN': '750',
+     'MEMORY_CONFIG': ['2 x 16GB'],
      },
+
     {'CPU': 'Ryzen 9 3900x',
+     'MOBO': 'X570',
      'GPU': [
          'GeForce RTX 2080 Ti',
          'GeForce RTX 2080 SUPER',
@@ -21,9 +26,13 @@ part_hierarchy = [
      'PSU_EFFs': [
          '80+ Gold',
          '80+ Platinum'
-     ]
+     ],
+     'PSU_WATT_MIN': '750',
+     'MEMORY_CONFIG': ['2 x 16GB'],
      },
+
     {'CPU': 'Ryzen 7 3800x',
+     'MOBO': 'X470',
      'GPU': [
          'GeForce RTX 2080 Ti',
          'GeForce RTX 2080 SUPER',
@@ -35,9 +44,13 @@ part_hierarchy = [
      'PSU_EFFs': [
          '80+ Gold',
          '80+ Platinum'
-     ]
+     ],
+     'PSU_WATT_MIN': '650',
+     'MEMORY_CONFIG': ['2 x 16GB'],
      },
+
     {'CPU': 'Ryzen 7 3700x',
+     'MOBO': 'X470',
      'GPU': [
          'GeForce RTX 2080 Ti',
          'GeForce RTX 2080 SUPER',
@@ -51,9 +64,13 @@ part_hierarchy = [
      'PSU_EFFs': [
          '80+ Gold',
          '80+ Platinum'
-     ]
+     ],
+     'PSU_WATT_MIN': '600',
+     'MEMORY_CONFIG': ['2 x 16GB'],
      },
+
     {'CPU': 'Ryzen 7 3700',
+     'MOBO': 'B450',
      'GPU': [
          'GeForce RTX 2080 Ti',
          'GeForce RTX 2080 SUPER',
@@ -69,9 +86,12 @@ part_hierarchy = [
      'PSU_EFFs': [
          '80+ Gold',
          '80+ Platinum'
-     ]
+     ],
+     'PSU_WATT_MIN': '600',
+     'MEMORY_CONFIG': ['2 x 16GB'],
      },
     {'CPU': 'Ryzen 5 3600x',
+     'MOBO': 'B450',
      'GPU': [
          'GeForce RTX 2080 Ti',
          'GeForce RTX 2080 SUPER',
@@ -90,9 +110,12 @@ part_hierarchy = [
          '80+ Gold',
          '80+ Platinum',
          '80+ Silver',
-     ]
+     ],
+     'PSU_WATT_MIN': '550',
+     'MEMORY_CONFIG': ['2 x 8GB'],
      },
     {'CPU': 'Ryzen 5 3600',
+     'MOBO': 'B450',
      'GPU': [
          'GeForce RTX 2080 Ti',
          'GeForce RTX 2080 SUPER',
@@ -112,9 +135,12 @@ part_hierarchy = [
          '80+ Platinum',
          '80+ Silver',
          '80+ Broze',
-     ]
+     ],
+     'PSU_WATT_MIN': '550',
+     'MEMORY_CONFIG': ['2 x 8GB'],
      },
     {'CPU': 'Ryzen 7 2700x',
+     'MOBO': 'B450',
      'GPU': [
          'GeForce RTX 2080 Ti',
          'GeForce RTX 2080 SUPER',
@@ -135,9 +161,12 @@ part_hierarchy = [
          '80+ Platinum',
          '80+ Silver',
          '80+ Broze',
-     ]
+     ],
+     'PSU_WATT_MIN': '550',
+     'MEMORY_CONFIG': ['2 x 8GB'],
      },
     {'CPU': 'Ryzen 5 2600x',
+     'MOBO': 'B450',
      'GPU': [
          'GeForce RTX 2080 Ti',
          'GeForce RTX 2080 SUPER',
@@ -158,9 +187,12 @@ part_hierarchy = [
          '80+ Platinum',
          '80+ Silver',
          '80+ Broze',
-     ]
+     ],
+     'PSU_WATT_MIN': '500',
+     'MEMORY_CONFIG': ['2 x 8GB'],
      },
     {'CPU': 'Ryzen 5 2600',
+     'MOBO': 'B450',
      'GPU': [
          'GeForce RTX 2080 Ti',
          'GeForce RTX 2080 SUPER',
@@ -183,9 +215,12 @@ part_hierarchy = [
          '80+ Platinum',
          '80+ Silver',
          '80+ Broze',
-     ]
+     ],
+     'PSU_WATT_MIN': '500',
+     'MEMORY_CONFIG': ['2 x 8GB'],
      },
     {'CPU': 'Ryzen 3 2200G',
+     'MOBO': 'B450',
      'GPU': [
          'GeForce RTX 2080 Ti',
          'GeForce RTX 2080 SUPER',
@@ -208,7 +243,255 @@ part_hierarchy = [
          '80+ Platinum',
          '80+ Silver',
          '80+ Broze',
-     ]
+     ],
+     'PSU_WATT_MIN': '450',
+     'MEMORY_CONFIG': ['2 x 8GB'],
      },
 ]
 
+
+
+gamer_hierarchy = [
+    {'CPU': 'Ryzen 9 3950x',
+     'MOBO': 'X570',
+     'GPU': [
+         'GeForce RTX 2080 Ti',
+         'GeForce RTX 2080 SUPER',
+         'GeForce RTX 2080',
+     ],
+     'PSU_EFFs': [
+         '80+ Gold',
+         '80+ Platinum'
+     ],
+     'PSU_WATT_MIN': '750',
+     'MEMORY_CONFIG': ['2 x 16GB'],
+     },
+
+    {'CPU': 'Ryzen 9 3900x',
+     'MOBO': 'X570',
+     'GPU': [
+         'GeForce RTX 2080 Ti',
+         'GeForce RTX 2080 SUPER',
+         'GeForce RTX 2080',
+     ],
+     'PSU_EFFs': [
+         '80+ Gold',
+         '80+ Platinum'
+     ],
+     'PSU_WATT_MIN': '750',
+     'MEMORY_CONFIG': ['2 x 16GB'],
+     },
+
+    {'CPU': 'Ryzen 7 3800x',
+     'MOBO': 'X470',
+     'GPU': [
+         'GeForce RTX 2080 Ti',
+         'GeForce RTX 2080 SUPER',
+         'GeForce RTX 2080',
+         'Radeon RX 5700 XT',
+         'Radeon RX 5700',
+     ],
+     'PSU_EFFs': [
+         '80+ Gold',
+         '80+ Platinum'
+     ],
+     'PSU_WATT_MIN': '650',
+     'MEMORY_CONFIG': ['2 x 16GB'],
+     },
+
+    {'CPU': 'Ryzen 7 3700x',
+     'MOBO': 'X470',
+     'GPU': [
+         'GeForce RTX 2080 Ti',
+         'GeForce RTX 2080 SUPER',
+         'GeForce RTX 2080',
+         'Radeon RX 5700 XT',
+         'Radeon RX 5700',
+         'GeForce RTX 2070 SUPER',
+         'GeForce RTX 2070',
+     ],
+     'PSU_EFFs': [
+         '80+ Gold',
+         '80+ Platinum'
+     ],
+     'PSU_WATT_MIN': '600',
+     'MEMORY_CONFIG': ['2 x 16GB'],
+     },
+
+    {'CPU': 'Ryzen 7 3700',
+     'MOBO': 'B450',
+     'GPU': [
+         'GeForce RTX 2080 Ti',
+         'GeForce RTX 2080 SUPER',
+         'GeForce RTX 2080',
+         'Radeon RX 5700 XT',
+         'Radeon RX 5700',
+         'GeForce RTX 2070 SUPER',
+         'GeForce RTX 2070',
+         'GeForce RTX 2060 SUPER',
+         'GeForce RTX 2060',
+     ],
+     'PSU_EFFs': [
+         '80+ Gold',
+         '80+ Platinum'
+     ],
+     'PSU_WATT_MIN': '600',
+     'MEMORY_CONFIG': ['2 x 16GB'],
+     },
+    {'CPU': 'Ryzen 5 3600x',
+     'MOBO': 'B450',
+     'GPU': [
+         'GeForce RTX 2080 Ti',
+         'GeForce RTX 2080 SUPER',
+         'GeForce RTX 2080',
+         'Radeon RX 5700 XT',
+         'Radeon RX 5700',
+         'GeForce RTX 2070 SUPER',
+         'GeForce RTX 2070',
+         'GeForce RTX 2060 SUPER',
+         'GeForce RTX 2060',
+         'Radeon RX 590',
+         'GeForce GTX 1660 Ti',
+     ],
+     'PSU_EFFs': [
+         '80+ Gold',
+         '80+ Platinum',
+         '80+ Silver',
+     ],
+     'PSU_WATT_MIN': '550',
+     'MEMORY_CONFIG': ['2 x 8GB'],
+     },
+    {'CPU': 'Ryzen 5 3600',
+     'MOBO': 'B450',
+     'GPU': [
+         'GeForce RTX 2080 Ti',
+         'GeForce RTX 2080 SUPER',
+         'GeForce RTX 2080',
+         'Radeon RX 5700 XT',
+         'Radeon RX 5700',
+         'GeForce RTX 2070 SUPER',
+         'GeForce RTX 2070',
+         'GeForce RTX 2060 SUPER',
+         'GeForce RTX 2060',
+         'Radeon RX 590',
+         'GeForce GTX 1660 Ti',
+         'GeForce GTX 1660',
+     ],
+     'PSU_EFFs': [
+         '80+ Gold',
+         '80+ Platinum',
+         '80+ Silver',
+         '80+ Broze',
+     ],
+     'PSU_WATT_MIN': '550',
+     'MEMORY_CONFIG': ['2 x 8GB'],
+     },
+    {'CPU': 'Ryzen 7 2700x',
+     'MOBO': 'B450',
+     'GPU': [
+         'GeForce RTX 2080 Ti',
+         'GeForce RTX 2080 SUPER',
+         'GeForce RTX 2080',
+         'Radeon RX 5700 XT',
+         'Radeon RX 5700',
+         'GeForce RTX 2070 SUPER',
+         'GeForce RTX 2070',
+         'GeForce RTX 2060 SUPER',
+         'GeForce RTX 2060',
+         'Radeon RX 590',
+         'GeForce GTX 1660 Ti',
+         'GeForce GTX 1660',
+         'Radeon RX 580',
+     ],
+     'PSU_EFFs': [
+         '80+ Gold',
+         '80+ Platinum',
+         '80+ Silver',
+         '80+ Broze',
+     ],
+     'PSU_WATT_MIN': '550',
+     'MEMORY_CONFIG': ['2 x 8GB'],
+     },
+    {'CPU': 'Ryzen 5 2600x',
+     'MOBO': 'B450',
+     'GPU': [
+         'GeForce RTX 2080 Ti',
+         'GeForce RTX 2080 SUPER',
+         'GeForce RTX 2080',
+         'Radeon RX 5700 XT',
+         'Radeon RX 5700',
+         'GeForce RTX 2070 SUPER',
+         'GeForce RTX 2070',
+         'GeForce RTX 2060 SUPER',
+         'GeForce RTX 2060',
+         'Radeon RX 590',
+         'GeForce GTX 1660 Ti',
+         'GeForce GTX 1660',
+         'Radeon RX 580',
+     ],
+     'PSU_EFFs': [
+         '80+ Gold',
+         '80+ Platinum',
+         '80+ Silver',
+         '80+ Broze',
+     ],
+     'PSU_WATT_MIN': '500',
+     'MEMORY_CONFIG': ['2 x 8GB'],
+     },
+    {'CPU': 'Ryzen 5 2600',
+     'MOBO': 'B450',
+     'GPU': [
+         'GeForce RTX 2080 Ti',
+         'GeForce RTX 2080 SUPER',
+         'GeForce RTX 2080',
+         'Radeon RX 5700 XT',
+         'Radeon RX 5700',
+         'GeForce RTX 2070 SUPER',
+         'GeForce RTX 2070',
+         'GeForce RTX 2060 SUPER',
+         'GeForce RTX 2060',
+         'Radeon RX 590',
+         'GeForce GTX 1660 Ti',
+         'GeForce GTX 1660',
+         'Radeon RX 580',
+         'Radeon RX 570',
+         'GeForce GTX 1650',
+     ],
+     'PSU_EFFs': [
+         '80+ Gold',
+         '80+ Platinum',
+         '80+ Silver',
+         '80+ Broze',
+     ],
+     'PSU_WATT_MIN': '500',
+     'MEMORY_CONFIG': ['2 x 8GB'],
+     },
+    {'CPU': 'Ryzen 3 2200G',
+     'MOBO': 'B450',
+     'GPU': [
+         'GeForce RTX 2080 Ti',
+         'GeForce RTX 2080 SUPER',
+         'GeForce RTX 2080',
+         'Radeon RX 5700 XT',
+         'Radeon RX 5700',
+         'GeForce RTX 2070 SUPER',
+         'GeForce RTX 2070',
+         'GeForce RTX 2060 SUPER',
+         'GeForce RTX 2060',
+         'Radeon RX 590',
+         'GeForce GTX 1660 Ti',
+         'GeForce GTX 1660',
+         'Radeon RX 580',
+         'Radeon RX 570',
+         'GeForce GTX 1650',
+     ],
+     'PSU_EFFs': [
+         '80+ Gold',
+         '80+ Platinum',
+         '80+ Silver',
+         '80+ Broze',
+     ],
+     'PSU_WATT_MIN': '450',
+     'MEMORY_CONFIG': ['2 x 8GB'],
+     },
+]

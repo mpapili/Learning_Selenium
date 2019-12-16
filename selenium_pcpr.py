@@ -1,16 +1,20 @@
-from part_hierarchy import part_hierarchy
+import argparse
+from part_hierarchy import gamer_hierarchy, part_hierarchy
 from selenium import webdriver
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.common.exceptions import StaleElementReferenceException
+import sys
 import this
 import time
 
 
-BUDGET = 875.0
+BUDGET = 1000.0
+WIGGLE = 30
 CHROMIUM_LOCATION = '/usr/bin/chromium'
-NAP_TIME = 0.25
+NAP_TIME = 0.25 # base time to sleep 
 # set up our web-driver to control chromium
 this.driver = None
+this.args = None
 #this.hierarchy = None
 
 
@@ -34,7 +38,6 @@ def find_element_for_link(elements: list, link: str) -> WebElement:
         elem_link = element.get_attribute('href')
 
         if elem_link and link in elem_link:
-            print(f'found {elem_link} of type {type(element)}')
             return element
 
 
@@ -120,7 +123,6 @@ def add_cheapest() -> dict:
                 if name and price:
 
                     print(f'{name}: {price}')
-
                     # time to add!
                     button = col.find_element_by_tag_name("button")
                     button.click()
@@ -136,12 +138,9 @@ def apply_filter(filter_id: str, valid_elements: list) -> None:
     elements, check off those elements in the filter list
     '''
     filter_block = this.driver.find_element_by_id(filter_id)  # "Speed"
-    print(f'found {filter_block} for filter!')
     labels = filter_block.find_elements_by_tag_name('label')
     for label in labels:
-        # debug
-        if label.text:
-            print(label.text)
+
         if label.text and label.text in valid_elements:
             label.click()
             time.sleep(NAP_TIME/2)
@@ -203,18 +202,27 @@ def buy_memory(freqs: list, capacities: list) -> dict:
     return add_cheapest()
 
 
-def buy_hard_drive(types: list, cap_search: str) -> dict:
+def buy_hard_drive(types: list, min_capacity: str) -> dict:
     '''
     given types (ex: ['SSD', 'HDD'])
-    and cap_search (ex: '1TB') find cheapest 
+    and min_capacity in GB (ex: '1000') find cheapest 
     option on pcpartpicker
     '''
     time.sleep(NAP_TIME*2)
     click_link_naturally('/products/internal-hard-drive/')
     time.sleep(NAP_TIME)
+    apply_filter('m_set', ['Intel', 'Samsung', 'Seagate', 'Western Digital'])
+    time.sleep(NAP_TIME)
     apply_filter('t_set', types)
     time.sleep(NAP_TIME)
-    input_search_text(this.driver, cap_search)
+
+    # minimum capacity
+    capacity_div = this.driver.find_element_by_id("filter_slide_left_A")
+    capacity_div.click()
+    capacity_min_box = capacity_div.find_element_by_tag_name("input")
+    capacity_min_box.send_keys(f"{min_capacity}\n")
+    time.sleep(NAP_TIME)
+
     time.sleep(NAP_TIME)
     # sort by price
     wt_cols = get_webtable_cols()
@@ -247,6 +255,8 @@ def buy_case() -> dict:
     time.sleep(NAP_TIME*2)
     click_link_naturally('/products/case/')
     time.sleep(NAP_TIME)
+    apply_filter('t_set', ['MicroATX Mid Tower', 'ATX Mid Tower'])
+    time.sleep(NAP_TIME)
     # sort by price
     wt_cols = get_webtable_cols()
     wt_cols['Price'].click()
@@ -254,19 +264,25 @@ def buy_case() -> dict:
     return add_cheapest()
 
 
-def buy_psu(make: list, efficiencies: list) -> dict:
+def buy_psu(makes: list, efficiencies: list, watt_min: str) -> dict:
     '''
     given makes (ex: ['Corsair, EVGA']) and
-    given efficiencies (ex: ['80+ Gold', '80+']) 
+    given efficiencies (ex: ['80+ Gold', '80+']) and
+    given watt_min (ex: "650")
     buy cheapest PSU
     '''
 
     time.sleep(NAP_TIME*2)
     click_link_naturally('/products/power-supply/')
     time.sleep(NAP_TIME)
-    apply_filter('m_set', ['Corsair', 'EVGA', 'SeaSonic'])
+    apply_filter('m_set', makes)
     time.sleep(NAP_TIME)
-    apply_filter('e_set', ['80+ Gold', '80+ Bronze'])
+    apply_filter('e_set', efficiencies)
+    wattage_div = this.driver.find_element_by_id("filter_slide_left_A")
+    wattage_div.click()
+    wattage_min_box = wattage_div.find_element_by_tag_name("input")
+    wattage_min_box.send_keys(f"{watt_min}\n")
+    time.sleep(NAP_TIME)
     # sort by price
     wt_cols = get_webtable_cols()
     wt_cols['Price'].click()
@@ -289,6 +305,98 @@ def build_a_pc(parts_dict: dict) -> list:
     '''
     build a PC! (to be used recursively!)
     '''
+    set_webdriver()
+    parts_list = []
+
+    # let's get PCPARTPICKER.COM
+    this.driver.get('https://pcpartpicker.com/list/')
+    time.sleep(NAP_TIME*2)
+
+    if this.args.country:
+        switch_country(args.country)
+ 
+    # let's go to the cpu page, and search
+    parts_list.append(buy_cpu(parts_dict['CPU']))
+    if calculate_cost(parts_list) > BUDGET + WIGGLE:
+        return False
+
+    # let's do a motherboard now
+    parts_list.append(buy_motherboard(parts_dict['MOBO']))
+    if calculate_cost(parts_list) > BUDGET + WIGGLE:
+        return False
+
+    # memory!
+    parts_list.append(buy_memory(['DDR4-3000', 'DDR4-3200', 'DDR4-3600'], parts_dict['MEMORY_CONFIG']))
+    if calculate_cost(parts_list) > BUDGET + WIGGLE:
+        return False
+
+    # hard drive!
+    parts_list.append(buy_hard_drive(['SSD'], '1000'))
+    if calculate_cost(parts_list) > BUDGET:
+        return False
+
+    # video card!
+    parts_list.append(buy_video_card(parts_dict['GPU']))
+    if calculate_cost(parts_list) > BUDGET + WIGGLE:
+        return parts_list
+
+    # case
+    parts_list.append(buy_case())
+    if calculate_cost(parts_list) > BUDGET + WIGGLE:
+        return False
+
+    # PSU
+    parts_list.append(
+        buy_psu(['Corsair', 'EVGA', 'SeaSonic'], parts_dict['PSU_EFFs'], parts_dict['PSU_WATT_MIN']))
+    if calculate_cost(parts_list) > BUDGET + WIGGLE:
+        return False
+
+    # any wiggle room?
+    cost = calculate_cost(parts_list)
+    if BUDGET - cost > 50:
+        # add an HDD!
+        parts_list.append(buy_hard_drive(['7200RPM'], '2800'))
+        cost = calculate_cost(parts_list)
+
+    permalink = get_permalink()
+
+    if BUDGET - cost > 100 and len(parts_dict['GPU']) > 1:
+        # more GPU!
+
+        old_list = parts_list
+        old_permalink = permalink
+        new_parts_dict = parts_dict['GPU'].pop()
+        new_list = build_a_pc(parts_dict) # rebuild with better gpu
+
+        if new_list:
+            new_cost = calculate_cost(new_list)
+            if new_cost < BUDGET + WIGGLE:
+                return new_list
+            else:
+                print(f'\ngoing to be doing get() on {old_permalink}')
+                this.driver.get(old_permalink)
+
+    return parts_list
+
+
+def get_permalink() -> str:
+    '''
+    returns permalink from site
+    '''
+    time.sleep(NAP_TIME*4)
+    action_box = this.driver.find_element_by_class_name("actionBox__wrapper")
+    permalink_elems = action_box.find_elements_by_tag_name("input")
+
+    for element in permalink_elems:
+        permalink = element.get_attribute('value')
+        if permalink:
+            return permalink
+
+
+def set_webdriver() -> None:
+    '''
+    resets this.webdriver
+    '''
     options = webdriver.ChromeOptions()
     options.add_argument('--ignore-certificate-errors')
     options.add_argument('--test-type')
@@ -297,34 +405,25 @@ def build_a_pc(parts_dict: dict) -> list:
     options.binary_location = CHROMIUM_LOCATION
     this.driver = webdriver.Chrome(chrome_options=options)
 
-    parts_list = []
 
-    # let's get PCPARTPICKER.COM
-    this.driver.get('https://pcpartpicker.com/list/')
-    time.sleep(NAP_TIME*2)
-    # let's go to the cpu page, and search
-    parts_list.append(buy_cpu(parts_dict['CPU']))
-    # let's do a motherboard now
-    parts_list.append(buy_motherboard('b450'))
-    # memory!
-    parts_list.append(buy_memory(
-        ['DDR4-3000', 'DDR4-3200', 'DDR4-3600'], ['2 x 8GB']))
-    # hard drive!
-    parts_list.append(buy_hard_drive(['SSD'], '1TB'))
-    # video card!
-    #parts_list.append(buy_video_card(['Radeon RX 570', 'Radeon RX 580', 'GeForce GTX 1060', 'GeForce GTX 1660']))
-    parts_list.append(buy_video_card(parts_dict['GPU']))
-    # case (lol)
-    parts_list.append(buy_case())
-    # PSU
-    parts_list.append(
-        buy_psu(['Corsair', 'EVGA', 'SeaSonic'], parts_dict['PSU_EFFs']))
-    return parts_list
+def switch_country(country: str) -> None:
+    '''
+    given a country (example: "Canada")
+    switches pcpartpicker site to that country's locale
+    '''
+    country_selector = this.driver.find_element_by_class_name("country-selector")
+    country_selector.click()
+    country_list = country_selector.find_element_by_id("country_select")
+    countries = country_list.find_elements_by_tag_name("option")
+    for country_name in countries:
+        if country_name.text.lower() == country.lower():
+            country_name.click()
+            break
+    time.sleep(NAP_TIME*2) # let page load
 
 
 if __name__ == '__main__':
 
-    #this.hierarchy = dict(part_hierarchy)
 
     def recursive_buy():
         '''
@@ -335,14 +434,39 @@ if __name__ == '__main__':
             parts_dict = part_hierarchy.pop(0)
             #parts_dict = {'CPU': part_hierarchy['CPU'].pop(0)}
             parts_list = build_a_pc(parts_dict)
-            # and what's the final cost?
-            cost = calculate_cost(parts_list)
-            print(parts_list)
-            print(cost)
-            if cost > BUDGET:
+            if parts_list:
+                # and what's the final cost?
+                cost = calculate_cost(parts_list)
+                print(parts_list)
+                print(cost)
+                if cost > (BUDGET+WIGGLE):
+                    recursive_buy()
+            else:
                 recursive_buy()
         except NoPartFound:
             print("a part was not found, skipping...")
             recursive_buy()
+        return parts_list, cost
 
-    recursive_buy()
+
+    # MAIN
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--budget", help="max budget for build")
+    parser.add_argument("--build_type", help="type of build ('ex: gaming')")
+    parser.add_argument("--country", help="country ('ex: 'Canada')")
+    args = parser.parse_args()
+    this.args = args
+
+    if args.budget:
+        BUDGET = float(args.budget)
+        print(f'budget was set to {BUDGET}')
+
+    if args.build_type and args.build_type == 'gaming':
+        # switch to an alternate hierarchy for gaming rigs
+        part_hierarchy = gamer_hierarchy 
+
+    parts_list, cost = recursive_buy()
+
+    if BUDGET - cost > 50:
+        # add an HDD!
+        parts_list.append(buy_hard_drive(['7200RPM'], '2800'))
